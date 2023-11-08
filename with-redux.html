@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.1/redux.js">
+    </script>
+</head>
+<body>
+    <html>
+    <body>
+        <style>
+            .container {
+                border: 5px solid black;
+                padding: 10px; 
+            }
+        </style>
+        <div id="red"></div>
+        <div id="green"></div>
+        <div id="blue"></div>
+        <script>
+            function reducer(state, action) {
+
+                if(state === undefined) {
+                    return {color:'yellow'}
+                }
+                let newState;
+                if(action.type === 'CHANGE_COLOR'){
+                    newState = Object.assign({},state, {color: action.color});
+                }
+                console.log(action.type, action, state, newState);
+                return newState;
+            }
+            const store = Redux.createStore(
+                reducer, 
+                window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+            );
+            console.log(store.getState());
+            function red() {
+                const state = store.getState();
+                document.querySelector('#red').innerHTML =  `
+                    <div class="container" id="component1" style="background-color:${state.color}">
+                        <h1>1</h1>
+                        <input 
+                            type="button" value="colorChange" onclick="
+                            store.dispatch({type: 'CHANGE_COLOR', color:'red'});
+                            ";
+                        /> 
+                    </div>
+                `;
+            }
+            store.subscribe(red);
+            red();
+            function green() {
+                const state = store.getState();
+                document.querySelector('#green').innerHTML =  `
+                    <div class="container" id="component2" style="background-color:${state.color}">
+                        <h1>2</h1>
+                        <input 
+                            type="button" value="colorChange" onclick="
+                            store.dispatch({type: 'CHANGE_COLOR', color:'green'});
+                            ";
+                        /> 
+                    </div>
+                `;
+            }
+            store.subscribe(green);
+            green();
+            function blue() {
+                const state = store.getState();
+                document.querySelector('#blue').innerHTML =  `
+                    <div class="container" id="component3" style="background-color:${state.color}">
+                        <h1>3</h1>
+                        <input 
+                            type="button" value="colorChange" onclick="
+                            store.dispatch({type: 'CHANGE_COLOR', color:'blue'});
+                            ";
+                        /> 
+                    </div>
+                `;
+            }
+            store.subscribe(blue);
+            blue();
+           
+        </script>
+    </body>
+</html>
+</body>
+</html>
